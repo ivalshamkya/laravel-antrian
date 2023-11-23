@@ -15,9 +15,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('login');
-});
+Route::get('/', [AuthController::class, 'index']);
 
 Route::controller(DashboardController::class)->group(function(){
     Route::get('/dashboard', 'index')->name('dashboard');
@@ -27,4 +25,5 @@ Route::controller(AuthController::class)->group(function(){
     Route::post('/auth/login', 'login')->name('login');
     Route::get('/register', 'registerPage')->name('register');
     Route::post('/auth/register', 'register');
+    Route::get('/auth/logout', 'logout')->name('logout');
 });
