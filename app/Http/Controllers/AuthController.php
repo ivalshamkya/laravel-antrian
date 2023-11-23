@@ -29,21 +29,20 @@ class AuthController extends Controller
 
     public function register(Request $request)
     {
-        // Validation logic (you can customize this based on your needs)
         $request->validate([
             'name' => 'required|string|max:255',
+            'username' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:8|confirmed',
+            'password' => 'required|string|min:8',
         ]);
 
-        // Create a new user
         $user = User::create([
             'name' => $request->name,
+            'username' => $request->username,
             'email' => $request->email,
             'password' => bcrypt($request->password),
         ]);
 
-        // Log in the newly registered user
         Auth::login($user);
 
         return redirect('/dashboard');
