@@ -8,19 +8,54 @@ use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('guest')->except('logout');
+    }
+
+    public function index()
+    {
+        if (Auth::check()) {
+            return redirect('/dashboard');
+        }
+        return view('login');
+    }
+
     public function login(Request $request)
     {
-        $credentials = $request->only('email', 'password');
+        $credentials = $request->only('username', 'password');
+        
+        if (Auth::attempt($credentials)) {
+            $response = [
+                'success' => true,
+                'message' => 'Login successful',
+            ];
 
-        if (Auth::attempt($credentials, $request->has('remember'))) {
+            $remember = $request->input('remember') == 'true';
+            if ($remember) {
+                $expirationDate = now()->addMonth();
+                $response['remember_cookie'] = [
+                    'name' => 'remember',
+                    'value' => 'true',
+                    'expiration' => $expirationDate->toDateTimeString(),
+                ];
+                $response['user_data'] = [
+                    'name' => 'user_data',
+                    'value' => json_encode($credentials),
+                    'expiration' => $expirationDate->toDateTimeString(),
+                ];
+            }
 
-            return redirect()->intended('/dashboard');
+            return response()->json($response);
         }
 
-        return redirect()->back()->withInput($request->only('email', 'remember'))->withErrors([
-            'email' => 'Invalid credentials',
+        return response()->json([
+            'success' => false,
+            'message' => 'Invalid credentials',
         ]);
     }
+
 
     public function registerPage()
     {
@@ -51,10 +86,6 @@ class AuthController extends Controller
     public function logout(Request $request)
     {
         Auth::logout();
-
-        $request->session()->invalidate();
-
-        $request->session()->regenerateToken();
 
         return redirect('/');
     }
