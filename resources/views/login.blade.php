@@ -26,8 +26,11 @@
                 </div>
                 <a href="" class="underline">Forgot Password?</a>
             </div>
-            <div class="flex justify-center">
+            <div class="flex justify-center mb-4">
                 <button type="submit" class="w-52 text-white bg-[#62aac2] hover:bg-cyan-700 focus:outline-none focus:ring-4 focus:ring-cyan-300 font-semibold rounded-full px-5 py-2.5 text-center me-2 mb-2 transition-all ease-in duration-150">Login</button>
+            </div>
+            <div class="flex justify-center">
+                <span class="text-center">Don`t have an account yet? <a href="{{ url('/register') }}" class="text-blue-500 underline">Register</a></span>
             </div>
         </form>
     </div>
