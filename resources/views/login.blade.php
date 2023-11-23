@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Login</title>
     <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
-    @vite('resources/css/app.css')
+    @vite(['resources/css/app.css','resources/js/app.js'])
 </head>
 <body class="antialiased bg-[#62aac2] flex flex-col justify-center items-center">
     <div class="max-w-3xl mt-5">
