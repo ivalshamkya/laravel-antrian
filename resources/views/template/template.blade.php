@@ -74,7 +74,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#"
+                    <a href="{{ route('antrian') }}"
                         class="flex items-center p-1.5 rounded-lg text-white hover:bg-gray-100 group transition-all ease-in-out duration-300">
                         <ion-icon name="volume-high"
                             class="p-2 border border-zinc-300 bg-white text-zinc-900 rounded-lg group-hover:border-zinc-700 group-hover:bg-zinc-800 group-hover:text-white"></ion-icon>
