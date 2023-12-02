@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AntrianController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
@@ -19,6 +20,10 @@ Route::get('/', [AuthController::class, 'index']);
 
 Route::controller(DashboardController::class)->group(function(){
     Route::get('/dashboard', 'index')->name('dashboard');
+});
+
+Route::controller(AntrianController::class)->group(function(){
+    Route::get('/antrian', 'index')->name('antrian');
 });
 
 Route::controller(AuthController::class)->group(function(){
