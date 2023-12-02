@@ -29,7 +29,7 @@
                                 aria-expanded="false" data-dropdown-toggle="dropdown-user">
                                 <span class="sr-only">Open user menu</span>
                                 <img class="w-8 h-8 rounded-full"
-                                    src="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
+                                    src="https://iconicentertainment.in/wp-content/uploads/2013/11/dummy-image-square.jpg"
                                     alt="user photo">
                             </button>
                         </div>
@@ -69,7 +69,7 @@
                     <a href="#"
                         class="flex items-center p-1.5 rounded-lg text-white hover:bg-gray-100 group transition-all ease-in-out duration-300">
                         <ion-icon name="home"
-                            class="p-2 border border-zinc-300 bg-white text-zinc-900 rounded-lg group-hover:bg-zinc-800 group-hover:text-white"></ion-icon>
+                            class="p-2 border border-zinc-300 bg-white text-zinc-900 rounded-lg group-hover:border-zinc-700 group-hover:bg-zinc-800 group-hover:text-white"></ion-icon>
                         <span class="ms-3 group-hover:text-gray-900">Beranda</span>
                     </a>
                 </li>
@@ -77,7 +77,7 @@
                     <a href="#"
                         class="flex items-center p-1.5 rounded-lg text-white hover:bg-gray-100 group transition-all ease-in-out duration-300">
                         <ion-icon name="volume-high"
-                            class="p-2 border border-zinc-300 bg-white text-zinc-900 rounded-lg group-hover:bg-zinc-800 group-hover:text-white"></ion-icon>
+                            class="p-2 border border-zinc-300 bg-white text-zinc-900 rounded-lg group-hover:border-zinc-700 group-hover:bg-zinc-800 group-hover:text-white"></ion-icon>
                         <span class="ms-3 group-hover:text-gray-900">Antrian</span>
                     </a>
                 </li>
@@ -85,7 +85,7 @@
                     <a href="#"
                         class="flex items-center p-1.5 rounded-lg text-white hover:bg-gray-100 group transition-all ease-in-out duration-300">
                         <ion-icon name="document"
-                            class="p-2 border border-zinc-300 bg-white text-zinc-900 rounded-lg group-hover:bg-zinc-800 group-hover:text-white"></ion-icon>
+                            class="p-2 border border-zinc-300 bg-white text-zinc-900 rounded-lg group-hover:border-zinc-700 group-hover:bg-zinc-800 group-hover:text-white"></ion-icon>
                         <span class="ms-3 group-hover:text-gray-900">Rekap Data</span>
                     </a>
                 </li>
@@ -96,19 +96,6 @@
     <div class="p-4 sm:ml-64">
         
         <div class="p-4 border-gray-200 rounded-lg mt-14 h-screen">
-            <nav class="flex mb-7" aria-label="Breadcrumb">
-                <ol class="inline-flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
-                <li class="inline-flex items-center">
-                    <a href="#" class="inline-flex items-center text-sm font-medium text-gray-700 hover:text-blue-600">
-                    <svg class="w-3 h-3 me-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                        <path d="m19.707 9.293-2-2-7-7a1 1 0 0 0-1.414 0l-7 7-2 2a1 1 0 0 0 1.414 1.414L2 10.414V18a2 2 0 0 0 2 2h3a1 1 0 0 0 1-1v-4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v4a1 1 0 0 0 1 1h3a2 2 0 0 0 2-2v-7.586l.293.293a1 1 0 0 0 1.414-1.414Z"/>
-                    </svg>
-                    Dashboard
-                    </a>
-                </li>
-                </ol>
-            </nav>
-  
             @yield('content')
         </div>
         @extends('template.footer')
