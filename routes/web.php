@@ -3,6 +3,7 @@
 use App\Http\Controllers\AntrianController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\RekapDataController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -24,6 +25,12 @@ Route::controller(DashboardController::class)->group(function(){
 
 Route::controller(AntrianController::class)->group(function(){
     Route::get('/antrian', 'index')->name('antrian');
+});
+
+Route::controller(RekapDataController::class)->group(function(){
+    Route::get('/rekapdata', 'index')->name('rekapdata');
+    Route::get('/rekapdata/{id}', 'detail')->name('detail-rekap');
+    Route::get('/rekapdata/{id}/edit', 'edit')->name('edit-rekap');
 });
 
 Route::controller(AuthController::class)->group(function(){

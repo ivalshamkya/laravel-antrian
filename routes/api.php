@@ -19,4 +19,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::put('/antrian/edit', [AntrianController::class, 'update']);
+Route::put('/antrian/reset', [AntrianController::class, 'resetAntrian']);
 Route::put('/antrian/increase', [AntrianController::class, 'increase']);
+Route::put('/antrian/decrease', [AntrianController::class, 'decrease']);
+Route::delete('/antrian/{id}', [AntrianController::class, 'destroy']);

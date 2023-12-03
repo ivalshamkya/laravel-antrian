@@ -43,16 +43,13 @@
                                     {{ Auth::user()->email }}
                                 </p>
                             </div>
-                            <ul class="py-1" role="none">
-                                <li>
-                                    <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                        role="menuitem">Profile</a>
-                                </li>
-                                <li>
-                                    <a href="{{ route('logout') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                        role="menuitem">Sign out</a>
-                                </li>
-                            </ul>
+                            <div>
+                                <a href="{{ route('logout') }}" class="flex items-center gap-1.5 px-4 py-2 text-sm text-red-500 hover:bg-gray-100"
+                                    role="menuitem">
+                                    <ion-icon name="exit-outline" class="text-lg"></ion-icon>
+                                    Sign out
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -66,10 +63,10 @@
         <div class="h-full px-3 pb-4 overflow-y-auto ">
             <ul class="space-y-2 font-medium">
                 <li>
-                    <a href="#"
+                    <a href="{{ route('dashboard') }}"
                         class="flex items-center p-1.5 rounded-lg text-white hover:bg-gray-100 group transition-all ease-in-out duration-300">
                         <ion-icon name="home"
-                            class="p-2 border border-zinc-300 bg-white text-zinc-900 rounded-lg group-hover:border-zinc-700 group-hover:bg-zinc-800 group-hover:text-white"></ion-icon>
+                            class="p-2 border {{ request()->is('dashboard') ? 'bg-gradient-to-tr from-blue-500 to-blue-800 text-zinc-50 border-blue-300 ' : 'bg-white text-zinc-900 border-zinc-300 group-hover:border-zinc-700 group-hover:bg-zinc-800 group-hover:text-white' }} rounded-lg"></ion-icon>
                         <span class="ms-3 group-hover:text-gray-900">Beranda</span>
                     </a>
                 </li>
@@ -77,15 +74,15 @@
                     <a href="{{ route('antrian') }}"
                         class="flex items-center p-1.5 rounded-lg text-white hover:bg-gray-100 group transition-all ease-in-out duration-300">
                         <ion-icon name="volume-high"
-                            class="p-2 border border-zinc-300 bg-white text-zinc-900 rounded-lg group-hover:border-zinc-700 group-hover:bg-zinc-800 group-hover:text-white"></ion-icon>
+                            class="p-2 border {{ request()->is('antrian*') ? 'bg-gradient-to-tr from-blue-500 to-blue-800 text-zinc-50 border-blue-300 ' : 'bg-white text-zinc-900 border-zinc-300 group-hover:border-zinc-700 group-hover:bg-zinc-800 group-hover:text-white' }} rounded-lg"></ion-icon>
                         <span class="ms-3 group-hover:text-gray-900">Antrian</span>
                     </a>
                 </li>
                 <li>
-                    <a href="#"
+                    <a href="{{ route('rekapdata') }}"
                         class="flex items-center p-1.5 rounded-lg text-white hover:bg-gray-100 group transition-all ease-in-out duration-300">
                         <ion-icon name="document"
-                            class="p-2 border border-zinc-300 bg-white text-zinc-900 rounded-lg group-hover:border-zinc-700 group-hover:bg-zinc-800 group-hover:text-white"></ion-icon>
+                            class="p-2 border {{ request()->is('rekapdata*') ? 'bg-gradient-to-tr from-blue-500 to-blue-800 text-zinc-50 border-blue-300 ' : 'bg-white text-zinc-900 border-zinc-300 group-hover:border-zinc-700 group-hover:bg-zinc-800 group-hover:text-white' }} rounded-lg"></ion-icon>
                         <span class="ms-3 group-hover:text-gray-900">Rekap Data</span>
                     </a>
                 </li>
