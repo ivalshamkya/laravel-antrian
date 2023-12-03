@@ -3,68 +3,75 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Antrian; // Update the namespace based on your model's location
+use App\Models\Antrian;
 
 class AntrianController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth')->only(['index']);
+    }
+
     public function index()
     {
-        return view('dashboard.antrian');
+        $antrian = Antrian::where('created_at', date('Y-m-d'))->first();
+        return view('dashboard.antrian', ['antrian' => $antrian]);
     }
 
     public function store(Request $request)
     {
-        // Validate the incoming request data
         $request->validate([
-            'nomor' => 'required|integer', // Adjust the validation rules based on your requirements
-            // Add other fields as needed
+            'jumlah' => 'required|integer',
         ]);
 
-        // Create a new Antrian instance and fill it with the request data
         $antrian = new Antrian;
-        $antrian->nomor = $request->input('nomor');
-        // Set other fields here
+        $antrian->jumlah = $request->input('jumlah');
 
-        // Save the new Antrian record to the database
         $antrian->save();
 
-        // Redirect to the index page or any other page after the record is saved
         return redirect()->route('antrian.index');
     }
 
-    public function update(Request $request, $created_at)
+    public function update(Request $request)
     {
-        // Validate the incoming request data
         $request->validate([
-            'nomor' => 'required|integer', // Adjust the validation rules based on your requirements
-            // Add other fields as needed
+            'id' => 'required',
+            'jumlah' => 'required|integer',
+            'created_at' => 'required|date',
         ]);
 
-        // Find the Antrian record by created_at
-        $antrian = Antrian::where('created_at', $created_at)->first();
+        $antrian = Antrian::where('id', $request->input('id'))->first();
 
         if (!$antrian) {
-            // Handle the case where the record is not found
             return response()->json(['error' => 'Record not found.'], 404);
         }
 
-        // Optimistically update the Antrian record with the request data
-        $antrian->nomor = $request->input('nomor');
-        // Update other fields here
+        $antrian->jumlah = $request->input('jumlah');
+        $antrian->created_at = $request->input('created_at');
 
-        // Save the updated Antrian record to the database
         $antrian->save();
 
-        // Assuming the save was successful, return the updated resource as JSON
         return response()->json($antrian);
+    }
 
-        // If you encounter an error during the save, you can handle it accordingly
-        // try {
-        //     $antrian->save();
-        //     return response()->json($antrian);
-        // } catch (\Exception $e) {
-        //     return response()->json(['error' => 'Failed to update.'], 500);
-        // }
+    public function resetAntrian(Request $request)
+    {
+        $request->validate([
+            'created_at' => 'required|date',
+        ]);
+
+        $antrian = Antrian::where('created_at', $request->input('created_at'))->first();
+
+        if (!$antrian) {
+            return response()->json(['error' => 'Record not found.'], 404);
+        }
+
+        $antrian->jumlah = 1;
+
+        $antrian->save();
+
+        return response()->json($antrian);
     }
 
     public function increase(Request $request)
@@ -77,7 +84,7 @@ class AntrianController extends Controller
         if (!$antrian) {
             $antrian = new Antrian;
             $antrian->created_at = $created_at;
-            $antrian->jumlah = 1;
+            $antrian->jumlah = 2;
         } else {
             $antrian->increment('jumlah', 1);
         }
@@ -85,5 +92,38 @@ class AntrianController extends Controller
         $antrian->save();
     
         return response()->json($antrian);
-    }    
+    }  
+    
+    public function decrease(Request $request)
+    {
+
+        $created_at = $request->input('created_at');
+
+        $antrian = Antrian::where('created_at', $created_at)->first();
+    
+        if (!$antrian) {
+            $antrian = new Antrian;
+            $antrian->created_at = $created_at;
+            $antrian->jumlah = 2;
+        } else {
+            $antrian->decrement('jumlah', 1);
+        }
+    
+        $antrian->save();
+    
+        return response()->json($antrian);
+    }  
+
+    public function destroy($id)
+    {
+        $antrian = Antrian::where('id', $id)->first();
+
+        if (!$antrian) {
+            return response()->json(['error' => 'Record not found.'], 404);
+        }
+
+        $antrian->delete();
+
+        return response()->json(['message' => 'Record deleted successfully']);
+    }
 }

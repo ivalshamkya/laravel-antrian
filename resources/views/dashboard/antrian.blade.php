@@ -2,18 +2,20 @@
 @section('content')
     <nav class="flex mb-7" aria-label="Breadcrumb">
         <ol class="inline-flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
-        <li class="inline-flex items-center">
-            <a href="#" class="inline-flex items-center text-sm font-medium text-gray-700 hover:text-blue-600">
-            <ion-icon name="home" class="me-1.5"></ion-icon>
-            Beranda
-            </a>
-        </li>
-        <li class="inline-flex items-center">
-            <a href="#" class="inline-flex items-center text-sm font-medium text-gray-700 hover:text-blue-600">
-            <ion-icon name="chevron-forward-outline" class="me-1.5"></ion-icon>
-            Antrian
-            </a>
-        </li>
+            <li class="inline-flex items-center">
+                <a href="{{ route('dashboard') }}" class="inline-flex items-center text-sm font-medium text-gray-700 hover:text-blue-600">
+                <ion-icon name="home" class="me-1.5"></ion-icon>
+                Beranda
+                </a>
+            </li>
+            <li class="inline-flex items-center">
+                <ion-icon name="chevron-forward-outline"></ion-icon>
+            </li>
+            <li class="inline-flex items-center">
+                <a href="{{ route('antrian') }}" class="inline-flex items-center text-sm font-medium text-gray-700 hover:text-blue-600">
+                Antrian
+                </a>
+            </li>
         </ol>
     </nav>
     <h1 class="text-xl mb-14">Antrian</h1>
@@ -35,8 +37,8 @@
         <div class="max-w-md w-full grid grid-cols-3 justify-center items-center gap-2 mt-3">
             <div class="flex justify-start items-center">
                 <button type="button" id="speak-button" class="group w-28 h-28 p-2 bg-white border border-zinc-300 rounded-lg shadow flex flex-col items-center justify-center transition-all ease-linear duration-100">
-                    <ion-icon name="volume-high" class="text-3xl text-zinc-500 group-hover:text-zinc-800"></ion-icon>
-                    <h1 class="text-lg">Panggil</h1>
+                    <ion-icon name="volume-high" class="text-3xl text-zinc-500 group-hover:text-blue-600"></ion-icon>
+                    <h1 class="text-lg group-hover:text-blue-600">Panggil</h1>
                 </button>
             </div>
             <div class="flex justify-center items-center">
@@ -47,8 +49,8 @@
             </div>
             <div class="flex justify-end items-center">
                 <button type="button" id="reset-antrian" class="group w-28 h-28 p-2 bg-white border border-zinc-300 rounded-lg shadow flex flex-col items-center justify-center transition-all ease-linear duration-100">
-                    <ion-icon name="refresh" class="text-3xl text-zinc-500 group-hover:text-zinc-800"></ion-icon>
-                    <h1 class="text-lg">Reset</h1>
+                    <ion-icon name="refresh" class="text-3xl text-zinc-500 group-hover:text-red-600"></ion-icon>
+                    <h1 class="text-lg group-hover:text-red-600">Reset</h1>
                 </button>
             </div>
         </div>
@@ -56,13 +58,13 @@
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script>
 
-        const MAX_ANTRIAN = 20;
+        const MAX_ANTRIAN = {{ Config::get('app.max_antrian') }};
         const CURRENT_DATE = new Date().toISOString().split('T')[0];
 
         console.log(CURRENT_DATE)
 
         $(document).ready(() => {
-            var nomorAntrian = 1;
+            var nomorAntrian = {{ $antrian->jumlah ? $antrian->jumlah : 1 }};
 
             $('#nomor').text(nomorAntrian.toString().padStart(3, '0'));
 
@@ -87,8 +89,32 @@
 
             $('#prev-antrian').on('click', () => {
                 if(nomorAntrian > 1) {
+
+                    var formData = new FormData();
+                    formData.append('created_at', CURRENT_DATE);
+
                     nomorAntrian -= 1;
-                    updateNomorAntrian(nomorAntrian);
+
+                    $.ajaxSetup({
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        }
+                    });
+
+                    $.ajax({
+                        url: '/api/antrian/decrease',
+                        type: 'PUT',
+                        data: {
+                            'created_at': CURRENT_DATE
+                        },
+                        success: function (response) {
+                            console.log('Update successful:', response);
+                            updateNomorAntrian(nomorAntrian);
+                        },
+                        error: function (error) {
+                            console.error('Update failed:', error);
+                        }
+                    });
                 }
             });
             
@@ -118,17 +144,38 @@
                         },
                         error: function (error) {
                             console.error('Update failed:', error);
-
-                            // Revert the UI back to the original state if needed
-                            // ...
                         }
                     });
                 }
             });
 
             $('#reset-antrian').on('click', () => {
+
+                var formData = new FormData();
+                formData.append('created_at', CURRENT_DATE);
+
                 nomorAntrian = 1;
-                updateNomorAntrian(nomorAntrian);
+
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+
+                $.ajax({
+                    url: '/api/antrian/reset',
+                    type: 'PUT',
+                    data: {
+                        'created_at': CURRENT_DATE
+                    },
+                    success: function (response) {
+                        console.log('Update successful:', response);
+                        updateNomorAntrian(nomorAntrian);
+                    },
+                    error: function (error) {
+                        console.error('Update failed:', error);
+                    }
+                });
             });
         });
 

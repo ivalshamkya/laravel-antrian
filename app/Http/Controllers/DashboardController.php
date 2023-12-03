@@ -10,6 +10,11 @@ class DashboardController extends BaseController
 {
     use AuthorizesRequests, ValidatesRequests;
 
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function index() {
         return view('dashboard.dashboard');
     }

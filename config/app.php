@@ -18,6 +18,9 @@ return [
 
     'name' => env('APP_NAME', 'Laravel'),
 
+    // this value is used for set maximum antrian
+    'max_antrian' => env('ANTRIAN_MAXIMUM', '20'),
+
     /*
     |--------------------------------------------------------------------------
     | Application Environment
