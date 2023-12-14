@@ -64,7 +64,7 @@
         console.log(CURRENT_DATE)
 
         $(document).ready(() => {
-            var nomorAntrian = {{ $antrian->jumlah ? $antrian->jumlah : 1 }};
+            var nomorAntrian = {{ $antrian ? $antrian->jumlah : 1 }};
 
             $('#nomor').text(nomorAntrian.toString().padStart(3, '0'));
 
